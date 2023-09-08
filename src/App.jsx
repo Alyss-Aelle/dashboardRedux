@@ -7,7 +7,7 @@ import  Public from "./pages/Public";
 import  Private from "./pages/private";
 import {onAuthStateChanged} from 'firebase/auth'
 import {auth} from './firebase'
-import { initUser } from "./redux";
+import { initUser, resetUser } from "./redux";
 
 function App() {
 

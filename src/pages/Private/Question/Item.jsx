@@ -6,10 +6,15 @@ const Item = ({question}) => {
   const [category, setCategory] = useState({});
   const getCategory = async() => { 
 
-    //recuperer donnée cat a partir de id question
+    if (question.category!= undefined ) {
+
+      //recuperer donnée cat a partir de id question
     const dataCategory = await getOneByID('category', question.category)
 
     setCategory(dataCategory) ; 
+      
+    }
+
    }
 
     useEffect(() => {

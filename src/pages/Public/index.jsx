@@ -1,15 +1,19 @@
 import React from 'react'
 import { loginByEmail } from '../../commonjs/auth';
 import { logout } from '../../commonjs/auth';
+import { useForm } from 'react-hook-form';
 
 const Public = () => {
 
-    const login = async(event) => { 
-        event.preventDefault() ;
-        console.log(event) ;
-        const {email,password } = event.target;
+  //gestion des erreurs 
+  const {register ,  handleSubmit , formState:{errors }} = useForm();
 
-        loginByEmail(email.value, password.value) .then(user => {
+    const login = async(data) => { 
+        //event.preventDefault() ;
+        console.log(data) ;
+        const {email,password } = data;
+
+        loginByEmail(email, password) .then(user => {
             console.log('user',user)
         })
             .catch(error =>{
@@ -23,21 +27,35 @@ const Public = () => {
         <h1 className="text-5xl font-bold">Login now!</h1>
 
       </div>
-      <form onSubmit={login}>
+      {/* handlesubmit controle avant/ declenche L'envoi  */}
+      <form onSubmit={handleSubmit(login) }>
       <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
         <div className="card-body">
           <div className="form-control">
             <label className="label">
               <span className="label-text">Email</span>
             </label>
-            <input type="text" name='email' placeholder="email" className="input input-bordered" />
+            <input type="text" name='email' {...register('email', {required:true})} placeholder="email" className="input input-bordered" />
+            {
+              errors.email &&
+              <label className="label">
+              <span className="label-text-alt text-red-500">email required</span>
+
+            </label>
+            }
           </div>
           <div className="form-control">
             <label className="label">
               <span className="label-text">Password</span>
             </label>
-            <input type="text" name='password' placeholder="password" className="input input-bordered" />
-            
+            <input type="text" name='password'{...register('password', {required:true})} placeholder="password" className="input input-bordered" />
+            {
+              errors.password &&
+              <label className="label">
+              <span className="label-text-alt text-red-500">password required</span>
+
+            </label>
+            }
           </div>
           <div className="form-control mt-6">
             <button type='submit' className="btn btn-primary">Login</button>
